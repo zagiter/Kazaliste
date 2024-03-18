@@ -7,7 +7,7 @@ namespace Backend.Controllers
     [ApiController]
     [Route("api/v1/[controller]")]
 
-    public class PredstavaController 
+    public class PredstavaController:ControllerBase
     {
 
         private readonly EdunovaContext _context;

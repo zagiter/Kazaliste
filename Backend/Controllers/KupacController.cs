@@ -7,7 +7,7 @@ namespace Backend.Controllers
     [ApiController]
     [Route("api/v1/[controller]")]
 
-    public class KupacController 
+    public class KupacController:ControllerBase
     {
 
         private readonly EdunovaContext _context;
