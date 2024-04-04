@@ -24,27 +24,13 @@ export default function Predstave(){
         dohvatiPredstave();
     },[]);
 
-
-    // function formatirajVerificiran(v){
-    //     if(v==null){
-    //         return 'nije definirano';
-    //     }
-
-    //     if(v){
-    //         return 'DA';
-    //     }
-
-    //     return 'NE';
-    // }
-
-    
     
     
     
     return(
         <>
            <Container>
-            
+           <Link to={RoutesNames.PREDSTAVA_NOVA} >Dodaj</Link>
             
             <Table striped bordered hover responsive>
                     <thead>
@@ -52,7 +38,7 @@ export default function Predstave(){
                             <th>Naziv</th>
                             <th>Datum</th>
                             <th>Cijena</th>
-                            <th>Sifra</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -61,7 +47,7 @@ export default function Predstave(){
                                 <td>{predstava.naziv}</td>
                                 <td>{predstava.datum}</td>
                                 <td>{predstava.cijena}</td>
-                                <td>{predstava.sifra}</td>
+                                
                             </tr>
                         ))}
                     </tbody>

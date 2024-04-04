@@ -15,6 +15,45 @@ async function get(){
     })
 }
 
+async function post(predstava){
+    
+    return await HttpService.post(naziv,predstava)
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return {greska: false, poruka: odgovor.data};
+    })
+    .catch((e)=>{
+        //console.log(e);
+        return {greska: true, poruka: e};
+    })
+}
+
+async function _delete(sifraPredstave){
+    return await HttpService.delete(naaziv + '/'+sifraPredstave)
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return {greska: false, poruka: odgovor.data.poruka};
+    })
+    .catch((e)=>{
+        //console.log(e);
+        return {greska: true, poruka: e};
+    })
+}
+
+async function getBySifra(sifra){
+    return await HttpService.get(naziv+'/'+sifra)
+    .then((o)=>{
+        return{greska: false, poruka: o.data}
+    })
+    .catch((e)=>{
+        return {greska: true, poruka: e}
+    });
+}
+
+
 export default{
-    get
+    get,
+    post,
+    _delete,
+    getBySifra
 }

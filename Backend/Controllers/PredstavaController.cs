@@ -26,6 +26,13 @@ namespace Backend.Controllers
             return new JsonResult(_context.Predstave.ToList());
         }
 
+        [HttpGet]
+        [Route("{sifra:int}")]
+        public IActionResult GetBySifra(int sifra)
+        {
+            return new JsonResult(_context.Predstave.Find(sifra));
+        }
+
         [HttpPost]
 
         public IActionResult Post(Predstava predstava) 

@@ -8,6 +8,8 @@ import { Route, Routes } from 'react-router-dom'
 import { RoutesNames } from './constants'
 import Pocetna from './pages/Pocetna'
 import Predstave from './pages/predstave/Predstave'
+import PredstaveDodaj from './pages/predstave/PredstaveDodaj'
+import PredstavePromjena from './pages/predstave/PredstavePromjena'
 
 function App() {
 
@@ -16,10 +18,11 @@ function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path={RoutesNames.HOME} element={<Pocetna />} />
-
-        <Route path={RoutesNames.PREDSTAVA_PREGLED} element={<Predstave />} />
         
+        <Route path={RoutesNames.HOME} element={<Pocetna />} />
+        <Route path={RoutesNames.PREDSTAVA_PREGLED} element={<Predstave />} />
+        <Route path={RoutesNames.PREDSTAVA_NOVA} element={<PredstaveDodaj />} />
+        <Route path={RoutesNames.PREDSTAVA_PROMJENI} element={<PredstavePromjena />} />
       
       
       

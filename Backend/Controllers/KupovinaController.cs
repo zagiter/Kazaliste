@@ -26,8 +26,15 @@ namespace Backend.Controllers
             return new JsonResult(_context.Kupovine.ToList());
         }
 
-        [HttpPost]
+        [HttpGet]
+        [Route("{sifra:int}")]
+        public IActionResult GetBySifra(int sifra)
+        {
+            return new JsonResult(_context.Kupovine.Find(sifra));
+        }
 
+
+        [HttpPost]
         public IActionResult Post(Kupovina kupovina) 
         {
             _context.Kupovine.Add(kupovina);

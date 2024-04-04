@@ -26,8 +26,15 @@ namespace Backend.Controllers
             return new JsonResult(_context.Kupci.ToList());
         }
 
-        [HttpPost]
+        [HttpGet]
+        [Route("{sifra:int}")]
+        public IActionResult GetBySifra(int sifra)
+        {
+            return new JsonResult(_context.Kupci.Find(sifra));
+        }
 
+
+        [HttpPost]
         public IActionResult Post(Kupac kupac) 
         {
             _context.Kupci.Add(kupac);
