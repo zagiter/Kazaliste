@@ -1,5 +1,5 @@
 
-import { Button, Col, Container, Form, FormGroup, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 import PredstavaService from "../../services/PredstavaService";
@@ -7,8 +7,6 @@ import PredstavaService from "../../services/PredstavaService";
 
 export default function PredstaveDodaj(){
     const navigate = useNavigate();
-
-
 
     async function dodaj(predstava){
         const odgovor = await PredstavaService.post(predstava);
@@ -20,8 +18,6 @@ export default function PredstaveDodaj(){
         navigate(RoutesNames.PREDSTAVA_PREGLED);
     }
         
-  
-    
     function obradiSubmit(e){  
         e.preventDefault();
         //alert('Dodajem predstavu');
@@ -29,17 +25,15 @@ export default function PredstaveDodaj(){
         const podaci = new FormData(e.target);
 
         const predstava = {
-
-           
             naziv: podaci.get('naziv'),  
             //datum: parseDateTime(podaci.get('datum')),
-            datum: podaci.get('datum'),
-            cijena: parseInt(podaci.get('cijena'))
+            //datum: podaci.get('datum'),
+            cijena: parseFloat(podaci.get('cijena'))
             
         };
 
-        console.log(predstava);
-        //dodaj(predstava);
+        //console.log(predstava);
+        dodaj(predstava);
         }
 
 
@@ -50,15 +44,15 @@ export default function PredstaveDodaj(){
             
                 <Form.Group controlId="naziv">
                     <Form.Label>Naziv</Form.Label>
-                    <Form.Control type="text" name="naziv" />
+                    <Form.Control type="text" name="naziv" required />
                 </Form.Group>
 
-                <Form.Group controlId="naziv">
+                <Form.Group controlId="datum">
                     <Form.Label>Datum i vrijeme</Form.Label>
                     <Form.Control type="text" name="datum" />
                 </Form.Group>
 
-                <Form.Group controlId="naziv">
+                <Form.Group controlId="cijena">
                     <Form.Label>Cijena</Form.Label>
                     <Form.Control type="text" name="cijena" />
                 </Form.Group>

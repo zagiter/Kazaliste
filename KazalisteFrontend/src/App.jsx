@@ -23,11 +23,7 @@ function App() {
         <Route path={RoutesNames.PREDSTAVA_PREGLED} element={<Predstave />} />
         <Route path={RoutesNames.PREDSTAVA_NOVA} element={<PredstaveDodaj />} />
         <Route path={RoutesNames.PREDSTAVA_PROMJENI} element={<PredstavePromjena />} />
-      
-      
-      
-      
-      
+     
       </Routes>
     </>
   )
