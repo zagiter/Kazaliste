@@ -3,12 +3,13 @@ import Container from 'react-bootstrap/Container';
 import PredstavaService from '../../services/PredstavaService';
 import { Button, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { RoutesNames } from '../../constants'
+import {RoutesNames} from '../../constants'
 
 
 export default function Predstave(){
     const [predstave, setPredstave] = useState();
     const navigate = useNavigate();
+
 
     async function dohvatiPredstave(){
         await PredstavaService.get()
@@ -25,6 +26,7 @@ export default function Predstave(){
     },[]);
 
 
+
     async function obrisiAsync(sifra){
         const odgovor = await PredstavaService._delete(sifra);
         if (odgovor.greska){
@@ -34,24 +36,23 @@ export default function Predstave(){
         }
         dohvatiPredstave();
     }
-    
+
     function obrisi(sifra){
         obrisiAsync(sifra);
     }
-    
+
     return(
         <>
            <Container>
-            <Link to={RoutesNames.PREDSTAVA_NOVA} > Dodaj </Link>
+            <Link to={RoutesNames.PREDSTAVA_NOVA}> Dodaj </Link>
             <Table striped bordered hover responsive>
                     <thead>
                         <tr>
                             <th>Naziv</th>
-                            <th>Datum</th>
-                            <th>Cijena</th>
+                            <th>Datum i vrijeme</th>
+                            <th>Cijena</th>                            
                             <th>Akcija</th>
-                            
-                       </tr>
+                        </tr>
                     </thead>
                     <tbody>
                         {predstave && predstave.map((predstava,index)=>(
@@ -69,11 +70,11 @@ export default function Predstave(){
                                     </Button>
                                         {/* kosi jednostruki navodnici `` su AltGR (desni) + 7 */}
                                     <Button 
-                                    onClick={()=>{navigate(`/smjerovi/${smjer.sifra}`)}}
+                                    onClick={()=>{navigate(`/predstave/${predstava.sifra}`)}} 
                                     >
-                                        Promjeni
+                                        Promijeni
                                     </Button>
-                                </td>                                
+                                </td>
                             </tr>
                         ))}
                     </tbody>

@@ -6,8 +6,8 @@ namespace Backend.Models
     {
 
         public string? Naziv { get; set; }
-        public DateTime? Datum { get; set; }
-        public decimal? Cijena { get; set; }
+        public string? Datum { get; set; }
+        public string? Cijena { get; set; }
      
 
 

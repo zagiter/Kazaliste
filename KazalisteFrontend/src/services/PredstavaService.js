@@ -53,7 +53,7 @@ async function _delete(sifraPredstave){
 }
 
 async function getBySifra(sifra){
-    return await HttpService.get(naziv+'/'+sifra)
+    return await HttpService.get(naziv + '/'+sifra)
     .then((o)=>{
         return{greska: false, poruka: o.data}
     })

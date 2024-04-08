@@ -5,6 +5,7 @@ import { RoutesNames } from "../../constants";
 import PredstavaService from "../../services/PredstavaService";
 
 
+
 export default function PredstaveDodaj(){
     const navigate = useNavigate();
 
@@ -25,17 +26,16 @@ export default function PredstaveDodaj(){
         const podaci = new FormData(e.target);
 
         const predstava = {
-            naziv: podaci.get('naziv'),  
-            //datum: parseDateTime(podaci.get('datum')),
-            //datum: podaci.get('datum'),
-            cijena: parseFloat(podaci.get('cijena'))
+            naziv: podaci.get('naziv'),              
+            datum: podaci.get('datum'),
+            cijena: podaci.get('cijena')
             
         };
 
         //console.log(predstava);
         dodaj(predstava);
         }
-
+        
 
     return (
 
@@ -47,12 +47,12 @@ export default function PredstaveDodaj(){
                     <Form.Control type="text" name="naziv" required />
                 </Form.Group>
 
-                <Form.Group controlId="datum">
+                <Form.Group controlId="naziv">
                     <Form.Label>Datum i vrijeme</Form.Label>
                     <Form.Control type="text" name="datum" />
                 </Form.Group>
 
-                <Form.Group controlId="cijena">
+                <Form.Group controlId="naziv">
                     <Form.Label>Cijena</Form.Label>
                     <Form.Control type="text" name="cijena" />
                 </Form.Group>
