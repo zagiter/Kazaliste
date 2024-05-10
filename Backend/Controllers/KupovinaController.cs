@@ -38,7 +38,7 @@ namespace Backend.Controllers
         protected override Kupovina NadiEntitet(int Sifra)
         {
             return _context.Kupovine.Include(i => i.predstava).Include(i => i.kupac)
-                    .FirstOrDefault(x => x.Sifra == Sifra) ?? throw new Exception("Ne postoji rez s Id-om " + Sifra + " u bazi");
+                    .FirstOrDefault(x => x.Sifra == Sifra) ?? throw new Exception("Ne postoji predstava sa šifrom " + Sifra + " u bazi");
         }
 
         protected override Kupovina KreirajEntitet(KupovinaDTOInsertUpdate dto)
@@ -70,8 +70,7 @@ namespace Backend.Controllers
 
         protected override void KontrolaBrisanje(Kupovina entitet)
         {
-            // Implementirati logiku za brisanje
+            
         }
     }
 }
-// overide include kupac , include film

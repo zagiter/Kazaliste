@@ -18,6 +18,7 @@ namespace Backend.Mappers
                      
                      entitet.Sifra,
                      entitet.predstava.Naziv,
+                     entitet.predstava.Datum,
                      entitet.kupac.Ime + " " + entitet.kupac.Prezime,
                      entitet.Broj_sjedala));
 
