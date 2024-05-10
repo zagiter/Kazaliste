@@ -1,78 +1,22 @@
-﻿using Backend.Data;
+﻿﻿using System.Text;
 using Backend.Models;
+using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-
-    public class KupacController:ControllerBase
+    public class KupciController : EdunovaController<Kupac, KupacDTORead, KupacDTOInsertUpdate>
     {
-
-        private readonly EdunovaContext _context;
-        
-
-
-        public KupacController(EdunovaContext context)     
-        { 
-            _context = context;
-        }
-        
-        
-        [HttpGet]
-        public IActionResult Get()
+        public KupciController(EdunovaContext context) : base(context)
         {
-            return new JsonResult(_context.Kupci.ToList());
+            DbSet = _context.Kupci;
         }
-
-        [HttpGet]
-        [Route("{sifra:int}")]
-        public IActionResult GetBySifra(int sifra)
+        protected override void KontrolaBrisanje(Kupac entitet)
         {
-            return new JsonResult(_context.Kupci.Find(sifra));
-        }
-
-
-        [HttpPost]
-        public IActionResult Post(Kupac kupac) 
-        {
-            _context.Kupci.Add(kupac);
-            _context.SaveChanges();
-            return new JsonResult(kupac);
-        }
-
-        [HttpPut]
-        [Route("{sifra:int}")]
-
-        public IActionResult Put(int sifra, Kupac kupac)
-        {
-            var kupacIzBaze = _context.Kupci.Find(sifra);
-            
-            kupacIzBaze.Ime = kupac.Ime;
-            kupacIzBaze.Prezime = kupac.Prezime;
-            kupacIzBaze.Email = kupac.Email;
-            kupacIzBaze.Telefon = kupac.Telefon;
-            
-            _context.Kupci.Update(kupacIzBaze);
-            _context.SaveChanges();
-
-            return new JsonResult(kupacIzBaze);
-        }
-
-        [HttpDelete]
-        [Route("{sifra:int}")]
-        [Produces("application/json")]
-
-        public IActionResult Delete(int sifra)
-        {
-            var kupacIzBaze = (_context.Kupci.Find(sifra));
-            _context.Kupci.Remove(kupacIzBaze);
-            _context.SaveChanges(); 
-
-            return new JsonResult(new { poruka="Obrisano"});
+           
         }
     }
-    
-    
 }

@@ -1,78 +1,77 @@
-﻿using Backend.Data;
+﻿
 using Backend.Models;
+using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using Backend.Mappers;
+using System.Text.RegularExpressions;
+
 
 namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-
-    public class KupovinaController:ControllerBase
+    public class KupovineController : EdunovaController<Kupovina, KupovinaDTORead, KupovinaDTOInsertUpdate>
     {
-
-        private readonly EdunovaContext _context;
-        
-
-
-        public KupovinaController(EdunovaContext context)     
-        { 
-            _context = context;
-        }
-        
-        
-        [HttpGet]
-        public IActionResult Get()
+        public KupovineController(EdunovaContext context) : base(context)
         {
-            return new JsonResult(_context.Kupovine.ToList());
+            DbSet = _context.Kupovine;
+            _mapper = new MappingKupovina();
         }
 
-        [HttpGet]
-        [Route("{sifra:int}")]
-        public IActionResult GetBySifra(int sifra)
+        protected override List<KupovinaDTORead> UcitajSve()
         {
-            return new JsonResult(_context.Kupovine.Find(sifra));
-        }
-
-
-        [HttpPost]
-        public IActionResult Post(Kupovina kupovina) 
-        {
-            _context.Kupovine.Add(kupovina);
-            _context.SaveChanges();
-            return new JsonResult(kupovina);
-        }
-
-        [HttpPut]
-        [Route("{sifra:int}")]
-
-        public IActionResult Put(int sifra, Kupovina kupovina)
-        {
-            var kupovinaIzBaze = _context.Kupovine.Find(sifra);
+            var lista = _context.Kupovine
+                    .Include(g => g.predstava)
+                    .Include(g => g.kupac)
+                    .ToList();
             
-            kupovinaIzBaze.Kupac_sifra = kupovina.Kupac_sifra;
-            kupovinaIzBaze.Predstava_sifra = kupovina.Predstava_sifra;
-            kupovinaIzBaze.Broj_sjedala = kupovina.Broj_sjedala;
-          
-            
-            _context.Kupovine.Update(kupovinaIzBaze);
-            _context.SaveChanges();
-
-            return new JsonResult(kupovinaIzBaze);
+            if (lista == null || lista.Count == 0)
+            {
+                throw new Exception("Ne postoje podaci u bazi");
+            }
+            return _mapper.MapReadList(lista);
         }
 
-        [HttpDelete]
-        [Route("{sifra:int}")]
-        [Produces("application/json")]
-
-        public IActionResult Delete(int sifra)
+        protected override Kupovina NadiEntitet(int Sifra)
         {
-            var kupovinaIzBaze = (_context.Kupovine.Find(sifra));
-            _context.Kupovine.Remove(kupovinaIzBaze);
-            _context.SaveChanges(); 
+            return _context.Kupovine.Include(i => i.predstava).Include(i => i.kupac)
+                    .FirstOrDefault(x => x.Sifra == Sifra) ?? throw new Exception("Ne postoji rez s Id-om " + Sifra + " u bazi");
+        }
 
-            return new JsonResult(new { poruka="Obrisano"});
+        protected override Kupovina KreirajEntitet(KupovinaDTOInsertUpdate dto)
+        {
+            var predstava = _context.Predstave.Find(dto.Predstava_sifra) ?? throw new Exception("Ne postoji " + dto.Predstava_sifra + " u bazi");
+            var kupac = _context.Kupci.Find(dto.Kupac_sifra) ?? throw new Exception("Ne postoji kupac s šifrom " + dto.Kupac_sifra + " u bazi");
+            var entitet = _mapper.MapInsertUpdatedFromDTO(dto);
+            entitet.predstava = predstava;
+            entitet.kupac = kupac;
+            return entitet;
+        }
+
+        protected override Kupovina PromjeniEntitet(KupovinaDTOInsertUpdate dto, Kupovina entitet)
+        {
+            var predstava = _context.Predstave.Find(dto.Predstava_sifra) ?? throw new Exception("Ne postoji film " + dto.Predstava_sifra + " u bazi");
+            var kupac = _context.Kupci.Find(dto.Kupac_sifra) ?? throw new Exception("Ne postoji kupac " + dto.Kupac_sifra + " u bazi");
+
+
+            entitet.kupac = kupac;
+            entitet.predstava = predstava;
+            entitet.Broj_sjedala = (int)dto.Broj_sjedala;
+            
+
+            
+            
+
+            return entitet;
+        }
+
+        protected override void KontrolaBrisanje(Kupovina entitet)
+        {
+            // Implementirati logiku za brisanje
         }
     }
-    
-    
 }
+// overide include kupac , include film
